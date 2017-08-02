@@ -24,6 +24,10 @@ namespace GidserIdentityServer
 			Console.WriteLine("Hello from IdentityServer");
 			Console.WriteLine($"En: {env.EnvironmentName}");
 
+			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+
+			Console.WriteLine($"Using Url: {url}");
+
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

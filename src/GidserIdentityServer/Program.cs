@@ -11,10 +11,15 @@ namespace GidserIdentityServer
     {
         public static void Main(string[] args)
         {
-            Console.Title = "IdentityServer";
+			Console.Title = "IdentityServer";
+
+			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+
+			Console.WriteLine($"Using Url: {url}");
 
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls(url)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

@@ -14,6 +14,10 @@ namespace MvcClient
 		{
             Console.WriteLine("Hello from MvcClient");
             Console.WriteLine($"En: {env.EnvironmentName}");
+
+			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+
+			Console.WriteLine($"Using Url: {url}");
 			
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
