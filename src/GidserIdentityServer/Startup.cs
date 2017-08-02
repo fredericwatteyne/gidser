@@ -13,6 +13,7 @@ using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace GidserIdentityServer
 {
@@ -20,6 +21,9 @@ namespace GidserIdentityServer
 	{
         public Startup(IHostingEnvironment env)
 		{
+			Console.WriteLine("Hello from IdentityServer");
+			Console.WriteLine($"En: {env.EnvironmentName}");
+
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

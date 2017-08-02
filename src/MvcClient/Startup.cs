@@ -4,13 +4,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace MvcClient
 {
     public class Startup
     {
         public Startup(IHostingEnvironment env)
-        {
+		{
+            Console.WriteLine("Hello from MvcClient");
+            Console.WriteLine($"En: {env.EnvironmentName}");
+			
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
