@@ -116,25 +116,25 @@ namespace GidserIdentityServer
                 new TestUser
                 {
                     SubjectId = "1",
-                    Username = "alice",
+                    Username = "karel",
                     Password = "password",
 
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
+                        new Claim("name", "Karel"),
+                        new Claim("website", "https://karel.com")
                     }
                 },
                 new TestUser
                 {
                     SubjectId = "2",
-                    Username = "bob",
+                    Username = "jos",
                     Password = "password",
 
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
+                        new Claim("name", "Jos"),
+                        new Claim("website", "https://jos.com")
                     }
                 }
             };

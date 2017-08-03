@@ -18,6 +18,7 @@ namespace MvcClient
 			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
 
 			Console.WriteLine($"Using Url: {url}");
+			Console.WriteLine(Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL"));
 			
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)

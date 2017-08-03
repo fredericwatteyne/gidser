@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+﻿﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using IdentityServer4;
@@ -23,9 +23,11 @@ namespace GidserIdentityServer
 		{
 			Console.WriteLine("Hello from IdentityServer");
 			Console.WriteLine($"En: {env.EnvironmentName}");
+			Console.WriteLine($"PORT: {Environment.GetEnvironmentVariable("PORT")}");
+			Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL")}");
+			Console.WriteLine($"MVC_CLIENT_URL: {Environment.GetEnvironmentVariable("MVC_CLIENT_URL")}");
 
 			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
-
 			Console.WriteLine($"Using Url: {url}");
 
 			var builder = new ConfigurationBuilder()
@@ -35,7 +37,6 @@ namespace GidserIdentityServer
 
 			builder.AddEnvironmentVariables();
 			Configuration = builder.Build();
-
 		}
 
         public IConfigurationRoot Configuration { get; }
