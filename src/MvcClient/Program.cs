@@ -10,10 +10,15 @@ namespace MvcClient
     public class Program
     {
         public static void Main(string[] args)
-        {
+		{
+			Console.Title = "Mvc Client";
+
+			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+
+			Console.WriteLine($"Using Url: {url}");
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://localhost:5002")
+                .UseUrls(url)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

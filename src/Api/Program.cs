@@ -11,12 +11,16 @@ namespace Api
     public class Program
     {
         public static void Main(string[] args)
-        {
-            Console.Title = "API";
+		{
+			Console.Title = "Api";
+
+			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+
+			Console.WriteLine($"Using Url: {url}");
 
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://localhost:5003")
+                .UseUrls(url)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
