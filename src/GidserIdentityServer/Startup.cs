@@ -81,7 +81,10 @@ namespace GidserIdentityServer
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // this will do the initial DB population
-            //InitializeDatabase(app);
+            if (Config.Environment().Equals("Staging"))
+            {
+                InitializeDatabase(app);
+            }
 
             loggerFactory.AddConsole(LogLevel.Debug);
             app.UseDeveloperExceptionPage();
