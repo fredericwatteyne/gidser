@@ -6,11 +6,27 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Linq;
 
 namespace GidserIdentityServer
 {
     public static class Config
 	{
+        public static string PostgresDBConnectionString()
+        {
+            var databaseUrl = System.Environment.GetEnvironmentVariable("DATABASE_URL");
+            
+            if (!string.IsNullOrEmpty(databaseUrl))
+            {
+                string conStr = databaseUrl.Replace("//", "");
+                char[] delimiterChars = { '/', ':', '@', '?' };
+                string[] strConn = conStr.Split(delimiterChars);
+                strConn = strConn.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                return string.Format("Host={0};Port={1};Database={2};User ID={3};Password={4};sslmode=Require;Trust Server Certificate=true;", strConn[3], strConn[4], strConn[5], strConn[1], strConn[2]);
+            }
+            throw new System.ArgumentNullException();
+        }
+
 		public static string Environment()
 		{
             return System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

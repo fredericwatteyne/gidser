@@ -64,14 +64,16 @@ namespace GidserIdentityServer
                 
             } else if (Config.Environment().Equals("Staging"))
 			{
-				Console.WriteLine("Inmemory Database configuration");
-				// configure identity server with in-memory users, but EF stores for clients and scopes
+				Console.WriteLine("Postgres Database configuration");
 				services.AddIdentityServer()
-					.AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
-					.AddInMemoryIdentityResources(Config.GetIdentityResources())
-					.AddInMemoryApiResources(Config.GetApiResources())
+					.AddTemporarySigningCredential()
 					.AddTestUsers(Config.GetUsers())
-					.AddTemporarySigningCredential();
+					.AddConfigurationStore(builder =>
+						builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+							options.MigrationsAssembly(migrationsAssembly)))
+					.AddOperationalStore(builder =>
+						builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+							options.MigrationsAssembly(migrationsAssembly)));
             }
 
         }
