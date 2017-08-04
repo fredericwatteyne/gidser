@@ -50,7 +50,7 @@ namespace GidserIdentityServer
 
 			// configure identity server with in-memory users, but EF stores for clients and scopes
 			services.AddIdentityServer()
-                .AddInMemoryClients(Config.GetClients(Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL")))
+                .AddInMemoryClients(Config.GetClients(Environment.GetEnvironmentVariable("MVC_CLIENT_URL")))
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
 				.AddTestUsers(Config.GetUsers())
