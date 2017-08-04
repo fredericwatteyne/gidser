@@ -6,25 +6,29 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System;
 
 namespace GidserIdentityServer
 {
     public static class Config
 	{
+		public static string Environment()
+		{
+            return System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+		}
+
 		public static string Port()
 		{
-			return Environment.GetEnvironmentVariable("PORT");
+			return System.Environment.GetEnvironmentVariable("PORT");
 		}
 
 		public static string MvcClientUrl()
 		{
-			return Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
+			return System.Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
 		}
 
 		public static string IdentityServerUrl()
 		{
-			return Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
+			return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
 		}
 
         // scopes define the resources in your system

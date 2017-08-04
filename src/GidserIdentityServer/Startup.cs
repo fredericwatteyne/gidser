@@ -47,27 +47,32 @@ namespace GidserIdentityServer
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
+            if (Config.Environment().Equals("Development"))
+			{
+				Console.WriteLine("Sqlite Database configuration");
+				// configure identity server with in-memory users, but EF stores for clients and scopes
+				services.AddIdentityServer()
+					.AddTemporarySigningCredential()
+					.AddTestUsers(Config.GetUsers())
+					.AddConfigurationStore(builder =>
+						builder.UseSqlite(Configuration["Connection"], options =>
+							options.MigrationsAssembly(migrationsAssembly)))
+					.AddOperationalStore(builder =>
+						builder.UseSqlite(Configuration["Connection"], options =>
+							options.MigrationsAssembly(migrationsAssembly)));
+                
+            } else if (Config.Environment().Equals("Staging"))
+			{
+				Console.WriteLine("Inmemory Database configuration");
+				// configure identity server with in-memory users, but EF stores for clients and scopes
+				services.AddIdentityServer()
+					.AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
+					.AddInMemoryIdentityResources(Config.GetIdentityResources())
+					.AddInMemoryApiResources(Config.GetApiResources())
+					.AddTestUsers(Config.GetUsers())
+					.AddTemporarySigningCredential();
+            }
 
-			// configure identity server with in-memory users, but EF stores for clients and scopes
-			services.AddIdentityServer()
-                .AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-				.AddTestUsers(Config.GetUsers())
-				.AddTemporarySigningCredential();
-            
-            /*
-            // configure identity server with in-memory users, but EF stores for clients and scopes
-            services.AddIdentityServer()
-                .AddTemporarySigningCredential()
-                .AddTestUsers(Config.GetUsers())
-				.AddConfigurationStore(builder =>
-					builder.UseSqlite(Configuration["Connection"], options =>
-						options.MigrationsAssembly(migrationsAssembly)))
-				.AddOperationalStore(builder =>
-					builder.UseSqlite(Configuration["Connection"], options =>
-						options.MigrationsAssembly(migrationsAssembly)));
-            */
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
