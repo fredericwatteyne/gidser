@@ -69,11 +69,9 @@ namespace GidserIdentityServer
 					.AddTemporarySigningCredential()
 					.AddTestUsers(Config.GetUsers())
 					.AddConfigurationStore(builder =>
-						builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
-							options.MigrationsAssembly(migrationsAssembly)))
+                        builder.UseNpgsql(Config.PostgresDBConnectionString()))
 					.AddOperationalStore(builder =>
-						builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
-							options.MigrationsAssembly(migrationsAssembly)));
+						builder.UseNpgsql(Config.PostgresDBConnectionString()));
             }
 
         }
