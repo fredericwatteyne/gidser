@@ -104,7 +104,7 @@ namespace GidserIdentityServer
                 context.Database.Migrate();
                 if (!context.Clients.Any())
                 {
-                    foreach (var client in Config.GetClients())
+                    foreach (var client in Config.GetClients(Environment.GetEnvironmentVariable("MVC_CLIENT_URL")))
                     {
                         context.Clients.Add(client.ToEntity());
                     }

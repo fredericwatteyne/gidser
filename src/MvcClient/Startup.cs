@@ -63,7 +63,7 @@ namespace MvcClient
                 AuthenticationScheme = "oidc",
                 SignInScheme = "Cookies",
 
-                Authority = "http://localhost:5000",
+                Authority = Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL"),
                 RequireHttpsMetadata = false,
 
                 ClientId = "mvc",

@@ -31,7 +31,7 @@ namespace GidserIdentityServer
 
 
         // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(string mvcClientUrl)
         {
             // client credentials client
             return new List<Client>
@@ -75,8 +75,8 @@ namespace GidserIdentityServer
                         new Secret("secret".Sha256())
                     },
 
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    RedirectUris = { $"{mvcClientUrl}/signin-oidc" },
+                    PostLogoutRedirectUris = { $"{mvcClientUrl}/signout-callback-oidc" },
 
                     AllowedScopes =
                     {
