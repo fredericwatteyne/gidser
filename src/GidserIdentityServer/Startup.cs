@@ -24,8 +24,9 @@ namespace GidserIdentityServer
 			Console.WriteLine("Hello from IdentityServer");
 			Console.WriteLine($"En: {env.EnvironmentName}");
             Console.WriteLine($"PORT: {Config.Port()}");
-            Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Config.IdentityServerUrl()}");
+			Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Config.IdentityServerUrl()}");
 			Console.WriteLine($"MVC_CLIENT_URL: {Config.MvcClientUrl()}");
+			Console.WriteLine($"DATABASE_URL: {Environment.GetEnvironmentVariable("DATABASE_URL")}");
 
             var url = $"http://*:{Config.Port()}/";
 			Console.WriteLine($"Using Url: {url}");
