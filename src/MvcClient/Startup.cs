@@ -14,11 +14,11 @@ namespace MvcClient
 		{
 			Console.WriteLine("Hello from Mvc Client");
 			Console.WriteLine($"En: {env.EnvironmentName}");
-			Console.WriteLine($"PORT: {Environment.GetEnvironmentVariable("PORT")}");
-			Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL")}");
-			Console.WriteLine($"MVC_CLIENT_URL: {Environment.GetEnvironmentVariable("MVC_CLIENT_URL")}");
+			Console.WriteLine($"PORT: {Config.Port()}");
+            Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Config.IdentityServerUrl()}");
+            Console.WriteLine($"MVC_CLIENT_URL: {Config.MvcClientUrl()}");
 
-			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+			var url = $"http://*:{Config.Port()}/";
 			Console.WriteLine($"Using Url: {url}");
 			
             var builder = new ConfigurationBuilder()
@@ -63,7 +63,7 @@ namespace MvcClient
                 AuthenticationScheme = "oidc",
                 SignInScheme = "Cookies",
 
-                Authority = Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL"),
+                Authority = Config.IdentityServerUrl(),
                 RequireHttpsMetadata = false,
 
                 ClientId = "mvc",

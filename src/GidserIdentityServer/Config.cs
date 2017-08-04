@@ -6,11 +6,27 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System;
 
 namespace GidserIdentityServer
 {
-    public class Config
-    {
+    public static class Config
+	{
+		public static string Port()
+		{
+			return Environment.GetEnvironmentVariable("PORT");
+		}
+
+		public static string MvcClientUrl()
+		{
+			return Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
+		}
+
+		public static string IdentityServerUrl()
+		{
+			return Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
+		}
+
         // scopes define the resources in your system
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
@@ -56,7 +72,7 @@ namespace GidserIdentityServer
                     ClientName = "Resource Owner Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
-                    ClientSecrets = 
+                    ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
@@ -70,7 +86,7 @@ namespace GidserIdentityServer
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
-                    ClientSecrets = 
+                    ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },

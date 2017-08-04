@@ -14,7 +14,7 @@ namespace Api
 		{
 			Console.Title = "Api";
 
-			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+			var url = $"http://*:{Config.Port()}/";
 
 			Console.WriteLine($"Using Url: {url}");
 

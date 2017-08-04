@@ -36,7 +36,7 @@ namespace MvcClient.Controllers
 
         public async Task<IActionResult> CallApiUsingClientCredentials()
         {
-            var tokenClient = new TokenClient("http://localhost:5000/connect/token", "mvc", "secret");
+            var tokenClient = new TokenClient($"{Config.IdentityServerUrl()}/connect/token", "mvc", "secret");
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
 
             var client = new HttpClient();

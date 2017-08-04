@@ -13,7 +13,7 @@ namespace MvcClient
 		{
 			Console.Title = "Mvc Client";
 
-			var url = $"http://*:{Environment.GetEnvironmentVariable("PORT")}/";
+            var url = $"http://*:{Config.Port()}/";
 
 			Console.WriteLine($"Using Url: {url}");
             var host = new WebHostBuilder()
