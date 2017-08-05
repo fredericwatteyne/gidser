@@ -64,6 +64,14 @@ namespace GidserIdentityServer
                 
             } else if (Config.Environment().Equals("Staging"))
 			{
+                Console.WriteLine("Inmemory Database configuration");
+				services.AddIdentityServer()
+                    .AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
+                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                    .AddInMemoryApiResources(Config.GetApiResources())
+ 					.AddTestUsers(Config.GetUsers())
+                    .AddTemporarySigningCredential();
+                /*
 				Console.WriteLine("Postgres Database configuration");
 				services.AddIdentityServer()
 					.AddTemporarySigningCredential()
@@ -72,6 +80,8 @@ namespace GidserIdentityServer
                         builder.UseNpgsql(Config.PostgresDBConnectionString()))
 					.AddOperationalStore(builder =>
 						builder.UseNpgsql(Config.PostgresDBConnectionString()));
+						*/
+
             }
 
         }
