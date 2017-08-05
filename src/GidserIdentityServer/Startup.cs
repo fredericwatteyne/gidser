@@ -105,7 +105,8 @@ namespace GidserIdentityServer
                 case DbConnection.Postgres:
 
                     Console.WriteLine("Postgres Database configuration");
-	                services.AddIdentityServer()
+					services.AddIdentityServer()
+						.AddTemporarySigningCredential()
 	                    .AddConfigurationStore(builder =>
 	                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
 	                                options.MigrationsAssembly(migrationsAssembly)))
