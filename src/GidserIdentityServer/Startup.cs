@@ -50,7 +50,7 @@ namespace GidserIdentityServer
 
             if (Config.Environment().Equals("Development"))
 			{
-                DbConnectionSetting = DbConnection.InMemory;
+                DbConnectionSetting = DbConnection.Postgres;
             }
             else if (Config.Environment().Equals("Staging"))
             {
@@ -140,13 +140,16 @@ namespace GidserIdentityServer
         }
 
         private void InitializeDatabase(IApplicationBuilder app)
-        {
+		{
             if (DbConnectionSetting == DbConnection.InMemory)
-                return;
+				return;
+            
+			Console.WriteLine("InitializeDatabase");
 
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                var grantContext = scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
+                grantContext.Database.Migrate();
 
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 				context.Database.Migrate();
