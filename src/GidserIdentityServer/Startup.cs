@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using System;
+using IdentityModel;
 
 namespace GidserIdentityServer
 {
@@ -49,7 +50,7 @@ namespace GidserIdentityServer
 
             if (Config.Environment().Equals("Development"))
 			{
-                DbConnectionSetting = DbConnection.Postgres;
+                DbConnectionSetting = DbConnection.InMemory;
             }
             else if (Config.Environment().Equals("Staging"))
             {
@@ -127,11 +128,11 @@ namespace GidserIdentityServer
             app.UseGoogleAuthentication(new GoogleOptions
             {
                 AuthenticationScheme = "Google",
-                DisplayName = "Google",
-                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+				DisplayName = "Google",
+				SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
 
-                ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
-                ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
+                ClientId = "370788744957-c4ntci0lu3pmu2jomobosm2upn0n5ajt.apps.googleusercontent.com",
+                ClientSecret = "m5hPRUDJB5iXEM9mDbwqPb4N"
             });
 
             app.UseStaticFiles();
