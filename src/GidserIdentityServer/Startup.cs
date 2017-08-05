@@ -50,7 +50,7 @@ namespace GidserIdentityServer
 
             if (Config.Environment().Equals("Development"))
 			{
-                DbConnectionSetting = DbConnection.Postgres;
+                DbConnectionSetting = DbConnection.InMemory;
             }
             else if (Config.Environment().Equals("Staging"))
             {

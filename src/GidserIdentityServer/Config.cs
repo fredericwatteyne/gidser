@@ -14,8 +14,7 @@ namespace GidserIdentityServer
 	{
         public static string PostgresDBConnectionString()
         {
-            var databaseUrl = "postgres://dvcvlhemhyazca:e2ce6785a257101ee557f1bb212881567e1cf49a266057da87d51790901d867d@ec2-54-228-255-234.eu-west-1.compute.amazonaws.com:5432/d277ljsn2vqnj5";
-                //System.Environment.GetEnvironmentVariable("DATABASE_URL");
+            var databaseUrl = System.Environment.GetEnvironmentVariable("DATABASE_URL");
             
             if (!string.IsNullOrEmpty(databaseUrl))
             {
