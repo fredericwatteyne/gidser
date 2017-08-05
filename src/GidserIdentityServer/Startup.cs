@@ -46,30 +46,72 @@ namespace GidserIdentityServer
 		{
 			services.AddMvc();
 
-			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             if (Config.Environment().Equals("Development"))
-            {
-                Console.WriteLine("Sqlite Database configuration");
-                // configure identity server with in-memory users, but EF stores for clients and scopes
-                services.AddIdentityServer()
-                    .AddConfigurationStore(builder =>
-                        builder.UseSqlite(Configuration["Connection"], options =>
-                            options.MigrationsAssembly(migrationsAssembly)))
-                    .AddOperationalStore(builder =>
-                        builder.UseSqlite(Configuration["Connection"], options =>
-                            options.MigrationsAssembly(migrationsAssembly)));
-
+			{
+                DbConnectionSetting = DbConnection.Postgres;
             }
             else if (Config.Environment().Equals("Staging"))
             {
-                services.AddIdentityServer()
-                    .AddConfigurationStore(builder =>
-                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
-                                options.MigrationsAssembly(migrationsAssembly)))
-                    .AddOperationalStore(builder =>
-                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
-                                options.MigrationsAssembly(migrationsAssembly)));
+                DbConnectionSetting = DbConnection.Postgres;
+            }
+
+            SetupDb(services);
+        }
+
+        private enum DbConnection 
+        {
+            InMemory,
+            Sqlite,
+            Postgres
+        }
+
+        private DbConnection DbConnectionSetting;
+
+        public void SetupDb(IServiceCollection services) 
+        {
+			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            switch (DbConnectionSetting) 
+            {
+				case DbConnection.InMemory:
+					Console.WriteLine("InMemory Database configuration");
+	                // configure identity server with in-memory users, but EF stores for clients and scopes
+	                services.AddIdentityServer()
+	                    .AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
+	                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+	                    .AddInMemoryApiResources(Config.GetApiResources())
+	                    .AddTestUsers(Config.GetUsers())
+	                    .AddTemporarySigningCredential();
+                    break;
+
+
+                case DbConnection.Sqlite:
+
+					Console.WriteLine("Sqlite Database configuration");
+	                // configure identity server with in-memory users, but EF stores for clients and scopes
+	                services.AddIdentityServer()
+	                    .AddTemporarySigningCredential()
+	                    .AddTestUsers(Config.GetUsers())
+	                    .AddConfigurationStore(builder =>
+	                        builder.UseSqlite(Configuration["Connection"], options =>
+	                            options.MigrationsAssembly(migrationsAssembly)))
+	                    .AddOperationalStore(builder =>
+	                        builder.UseSqlite(Configuration["Connection"], options =>
+	                            options.MigrationsAssembly(migrationsAssembly)));
+                    break;
+
+                case DbConnection.Postgres:
+
+                    Console.WriteLine("Postgres Database configuration");
+	                services.AddIdentityServer()
+	                    .AddConfigurationStore(builder =>
+	                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+	                                options.MigrationsAssembly(migrationsAssembly)))
+	                    .AddOperationalStore(builder =>
+	                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+	                                options.MigrationsAssembly(migrationsAssembly)));
+                    break;
             }
         }
 
@@ -98,20 +140,24 @@ namespace GidserIdentityServer
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
+            if (DbConnectionSetting == DbConnection.InMemory)
+                return;
+
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                if (!context.Clients.Any())
-                {
-                    foreach (var client in Config.GetClients(Config.MvcClientUrl()))
-                    {
-                        context.Clients.Add(client.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
+				context.Database.Migrate();
+
+				if (!context.Clients.Any())
+				{
+					foreach (var client in Config.GetClients(Config.MvcClientUrl()))
+					{
+						context.Clients.Add(client.ToEntity());
+					}
+					context.SaveChanges();
+				}
 
                 if (!context.IdentityResources.Any())
                 {
