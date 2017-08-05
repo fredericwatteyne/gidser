@@ -53,8 +53,6 @@ namespace GidserIdentityServer
                 Console.WriteLine("Sqlite Database configuration");
                 // configure identity server with in-memory users, but EF stores for clients and scopes
                 services.AddIdentityServer()
-                    .AddTemporarySigningCredential()
-                    .AddTestUsers(Config.GetUsers())
                     .AddConfigurationStore(builder =>
                         builder.UseSqlite(Configuration["Connection"], options =>
                             options.MigrationsAssembly(migrationsAssembly)))
@@ -77,11 +75,7 @@ namespace GidserIdentityServer
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // this will do the initial DB population
-            if (Config.Environment().Equals("Development"))
-            {
-                InitializeDatabase(app);
-            }
+            InitializeDatabase(app);
 
             loggerFactory.AddConsole(LogLevel.Debug);
             app.UseDeveloperExceptionPage();
