@@ -5,14 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using IdentityServer4.EntityFramework.DbContexts;
 
-namespace GidserIdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
+namespace GidserIdentityServer.Migrations
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    partial class PersistedGrantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170805112026_InitialIdentityServerMigration")]
+    partial class InitialIdentityServerMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>

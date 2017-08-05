@@ -46,50 +46,39 @@ namespace GidserIdentityServer
 		{
 			services.AddMvc();
 
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             if (Config.Environment().Equals("Development"))
-			{
-				Console.WriteLine("Sqlite Database configuration");
-				// configure identity server with in-memory users, but EF stores for clients and scopes
-				services.AddIdentityServer()
-					.AddTemporarySigningCredential()
-					.AddTestUsers(Config.GetUsers())
-					.AddConfigurationStore(builder =>
-						builder.UseSqlite(Configuration["Connection"], options =>
-							options.MigrationsAssembly(migrationsAssembly)))
-					.AddOperationalStore(builder =>
-						builder.UseSqlite(Configuration["Connection"], options =>
-							options.MigrationsAssembly(migrationsAssembly)));
-                
-            } else if (Config.Environment().Equals("Staging"))
-			{
-                Console.WriteLine("Inmemory Database configuration");
-				services.AddIdentityServer()
-                    .AddInMemoryClients(Config.GetClients(Config.MvcClientUrl()))
-                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                    .AddInMemoryApiResources(Config.GetApiResources())
- 					.AddTestUsers(Config.GetUsers())
-                    .AddTemporarySigningCredential();
-                /*
-				Console.WriteLine("Postgres Database configuration");
-				services.AddIdentityServer()
-					.AddTemporarySigningCredential()
-					.AddTestUsers(Config.GetUsers())
-					.AddConfigurationStore(builder =>
-                        builder.UseNpgsql(Config.PostgresDBConnectionString()))
-					.AddOperationalStore(builder =>
-						builder.UseNpgsql(Config.PostgresDBConnectionString()));
-						*/
+            {
+                Console.WriteLine("Sqlite Database configuration");
+                // configure identity server with in-memory users, but EF stores for clients and scopes
+                services.AddIdentityServer()
+                    .AddTemporarySigningCredential()
+                    .AddTestUsers(Config.GetUsers())
+                    .AddConfigurationStore(builder =>
+                        builder.UseSqlite(Configuration["Connection"], options =>
+                            options.MigrationsAssembly(migrationsAssembly)))
+                    .AddOperationalStore(builder =>
+                        builder.UseSqlite(Configuration["Connection"], options =>
+                            options.MigrationsAssembly(migrationsAssembly)));
 
             }
-
+            else if (Config.Environment().Equals("Staging"))
+            {
+                services.AddIdentityServer()
+                    .AddConfigurationStore(builder =>
+                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+                                options.MigrationsAssembly(migrationsAssembly)))
+                    .AddOperationalStore(builder =>
+                        builder.UseNpgsql(Config.PostgresDBConnectionString(), options =>
+                                options.MigrationsAssembly(migrationsAssembly)));
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // this will do the initial DB population
-            if (Config.Environment().Equals("Staging"))
+            if (Config.Environment().Equals("Development"))
             {
                 InitializeDatabase(app);
             }

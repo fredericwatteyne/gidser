@@ -28,4 +28,9 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20170805112026_InitialIdentityServerMigration.Designer.cs" />
+    <Compile Remove="Migrations\20170805112026_InitialIdentityServerMigration.cs" />
+    <Compile Remove="Migrations\PersistedGrantDbContextModelSnapshot.cs" />
+  </ItemGroup>
 </Project>
