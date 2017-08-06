@@ -47,6 +47,11 @@ namespace GidserIdentityServer
 			return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
 		}
 
+		public static string ApiUrl()
+		{
+			return System.Environment.GetEnvironmentVariable("API_URL");
+		}
+
         // scopes define the resources in your system
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {

@@ -24,5 +24,10 @@ namespace Api
 		{
 			return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
 		}
+
+		public static string ApiUrl()
+		{
+			return System.Environment.GetEnvironmentVariable("API_URL");
+		}
     }
 }
