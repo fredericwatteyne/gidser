@@ -16,6 +16,9 @@ namespace Api
 		{
 			Console.WriteLine("Hello from Api");
 			Console.WriteLine($"En: {env.EnvironmentName}");
+			Console.WriteLine($"IdentityServerUrl: {Config.IdentityServerUrl()}");
+			Console.WriteLine($"MvcClientUrl: {Config.MvcClientUrl()}");
+			Console.WriteLine($"Port: {Config.Port()}");
 
 			var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -35,7 +38,7 @@ namespace Api
                 // this defines a CORS policy called "default"
                 options.AddPolicy("default", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5003")
+                    policy.WithOrigins("http://localhost:5001")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -56,7 +59,7 @@ namespace Api
 
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
-                Authority = "http://localhost:5000",
+                Authority = Config.IdentityServerUrl(),
                 RequireHttpsMetadata = false,
 
                 ApiName = "api1"

@@ -20,6 +20,11 @@ namespace MvcClient
 			return System.Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
 		}
 
+		public static string ApiUrl()
+		{
+			return System.Environment.GetEnvironmentVariable("API_URL");
+		}
+
 		public static string IdentityServerUrl()
 		{
 			return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");

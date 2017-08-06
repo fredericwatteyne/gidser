@@ -50,7 +50,7 @@ namespace GidserIdentityServer
 
             if (Config.Environment().Equals("Development"))
 			{
-                DbConnectionSetting = DbConnection.InMemory;
+                DbConnectionSetting = DbConnection.Sqlite;
             }
             else if (Config.Environment().Equals("Staging"))
             {
@@ -95,10 +95,10 @@ namespace GidserIdentityServer
 	                    .AddTemporarySigningCredential()
 	                    .AddTestUsers(Config.GetUsers())
 	                    .AddConfigurationStore(builder =>
-	                        builder.UseSqlite(Configuration["Connection"], options =>
+	                        builder.UseSqlite("Filename=MyDatabase.db", options =>
 	                            options.MigrationsAssembly(migrationsAssembly)))
 	                    .AddOperationalStore(builder =>
-	                        builder.UseSqlite(Configuration["Connection"], options =>
+	                        builder.UseSqlite("Filename=MyDatabase.db", options =>
 	                            options.MigrationsAssembly(migrationsAssembly)));
                     break;
 
@@ -150,7 +150,7 @@ namespace GidserIdentityServer
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var grantContext = scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
-                grantContext.Database.Migrate();
+			    grantContext.Database.Migrate();
 
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 				context.Database.Migrate();

@@ -15,8 +15,9 @@ namespace MvcClient
 			Console.WriteLine("Hello from Mvc Client");
 			Console.WriteLine($"En: {env.EnvironmentName}");
 			Console.WriteLine($"PORT: {Config.Port()}");
-            Console.WriteLine($"GIDSERIDENTITYSERVER_URL: {Config.IdentityServerUrl()}");
-            Console.WriteLine($"MVC_CLIENT_URL: {Config.MvcClientUrl()}");
+			Console.WriteLine($"IdentityServerUrl: {Config.IdentityServerUrl()}");
+			Console.WriteLine($"MvcClientUrl: {Config.MvcClientUrl()}");
+			Console.WriteLine($"ApiUrl: {Config.ApiUrl()}");
 
 			var url = $"http://*:{Config.Port()}/";
 			Console.WriteLine($"Using Url: {url}");
@@ -77,6 +78,13 @@ namespace MvcClient
             });
             
             app.UseStaticFiles();
+
+
+		    //app.UseIdentity();
+
+		    // Adds IdentityServer
+		    //app.UseIdentityServer();
+
             app.UseMvcWithDefaultRoute();
         }
     }

@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcClient", "src\MvcClient\MvcClient.csproj", "{8A52477B-F500-40DA-8161-F3FF47AF0768}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{6AA9959B-F442-49D2-B1CF-662937FC66C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "src\Model\Model.csproj", "{4F5A2FFF-BB77-4D19-8066-F3C7675A3ACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "src\Client\Client.csproj", "{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,5 +31,17 @@ Global
 		{8A52477B-F500-40DA-8161-F3FF47AF0768}.Debug|x86.Build.0 = Debug|Any CPU
 		{8A52477B-F500-40DA-8161-F3FF47AF0768}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A52477B-F500-40DA-8161-F3FF47AF0768}.Release|x86.Build.0 = Release|Any CPU
+		{4F5A2FFF-BB77-4D19-8066-F3C7675A3ACE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F5A2FFF-BB77-4D19-8066-F3C7675A3ACE}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F5A2FFF-BB77-4D19-8066-F3C7675A3ACE}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F5A2FFF-BB77-4D19-8066-F3C7675A3ACE}.Release|x86.Build.0 = Release|Any CPU
+		{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F}.Debug|x86.Build.0 = Debug|Any CPU
+		{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F}.Release|x86.ActiveCfg = Release|Any CPU
+		{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A52477B-F500-40DA-8161-F3FF47AF0768} = {6AA9959B-F442-49D2-B1CF-662937FC66C2}
+		{3BC6023F-CCBC-460C-85D7-71D9C59C7C7F} = {6AA9959B-F442-49D2-B1CF-662937FC66C2}
 	EndGlobalSection
 EndGlobal
