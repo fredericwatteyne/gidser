@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using IdentityModel.Client;
+using System;
 
 namespace MvcClient.Controllers
 {
@@ -41,6 +42,10 @@ namespace MvcClient.Controllers
 
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
+
+
+            Console.WriteLine($"Ask: {Config.ApiUrl()}/identity");
+
             var content = await client.GetStringAsync($"{Config.ApiUrl()}/identity");
 
             ViewBag.Json = JArray.Parse(content).ToString();
@@ -52,7 +57,10 @@ namespace MvcClient.Controllers
             var accessToken = await HttpContext.Authentication.GetTokenAsync("access_token");
 
             var client = new HttpClient();
-            client.SetBearerToken(accessToken);
+			client.SetBearerToken(accessToken);
+
+			Console.WriteLine($"Ask: {Config.ApiUrl()}/identity");
+
             var content = await client.GetStringAsync($"{Config.ApiUrl()}/identity");
 
             ViewBag.Json = JArray.Parse(content).ToString();
