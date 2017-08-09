@@ -7,15 +7,16 @@ using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Linq;
+using IdentityModel;
 
 namespace GidserIdentityServer
 {
     public static class Config
-	{
+    {
         public static string PostgresDBConnectionString()
         {
             var databaseUrl = System.Environment.GetEnvironmentVariable("DATABASE_URL");
-            
+
             if (!string.IsNullOrEmpty(databaseUrl))
             {
                 string conStr = databaseUrl.Replace("//", "");
@@ -27,30 +28,30 @@ namespace GidserIdentityServer
             return "";
         }
 
-		public static string Environment()
-		{
+        public static string Environment()
+        {
             return System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-		}
+        }
 
-		public static string Port()
-		{
-			return System.Environment.GetEnvironmentVariable("PORT");
-		}
+        public static string Port()
+        {
+            return System.Environment.GetEnvironmentVariable("PORT");
+        }
 
-		public static string MvcClientUrl()
-		{
-			return System.Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
-		}
+        public static string MvcClientUrl()
+        {
+            return System.Environment.GetEnvironmentVariable("MVC_CLIENT_URL");
+        }
 
-		public static string IdentityServerUrl()
-		{
-			return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
-		}
+        public static string IdentityServerUrl()
+        {
+            return System.Environment.GetEnvironmentVariable("GIDSERIDENTITYSERVER_URL");
+        }
 
-		public static string ApiUrl()
-		{
-			return System.Environment.GetEnvironmentVariable("API_URL");
-		}
+        public static string ApiUrl()
+        {
+            return System.Environment.GetEnvironmentVariable("API_URL");
+        }
 
         // scopes define the resources in your system
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -153,32 +154,33 @@ namespace GidserIdentityServer
         public static List<TestUser> GetUsers()
         {
             return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "karel",
-                    Password = "password",
-
-                    Claims = new List<Claim>
-                    {
-                        new Claim("name", "Karel"),
-                        new Claim("website", "https://karel.com")
-                    }
-                },
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "jos",
-                    Password = "password",
-
-                    Claims = new List<Claim>
-                    {
-                        new Claim("name", "Jos"),
-                        new Claim("website", "https://jos.com")
-                    }
-                }
-            };
+	        {
+	            new TestUser{SubjectId = "818727", Username = "alice", Password = "alice",
+	                Claims =
+	                {
+	                    new Claim(JwtClaimTypes.Name, "Alice Smith"),
+	                    new Claim(JwtClaimTypes.GivenName, "Alice"),
+	                    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+	                    new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+	                    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+	                    new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+	                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json)
+	                }
+	            },
+	            new TestUser{SubjectId = "88421113", Username = "bob", Password = "bob",
+	                Claims =
+	                {
+	                    new Claim(JwtClaimTypes.Name, "Bob Smith"),
+	                    new Claim(JwtClaimTypes.GivenName, "Bob"),
+	                    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+	                    new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
+	                    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+	                    new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+	                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json),
+	                    new Claim("location", "somewhere"),
+	                }
+	            },
+	        };
         }
     }
 }

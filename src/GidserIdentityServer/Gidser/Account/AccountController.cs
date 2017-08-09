@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using GidserIdentityServer;
 
 namespace IdentityServer4.Gidser.UI
 {
@@ -38,7 +39,7 @@ namespace IdentityServer4.Gidser.UI
             TestUserStore users = null)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
-            _users = users ?? new TestUserStore(TestUsers.Users);
+            _users = users ?? new TestUserStore(Config.GetUsers());
             _interaction = interaction;
             _account = new AccountService(interaction, httpContextAccessor, clientStore);
         }
